@@ -85,7 +85,7 @@ How can I get cutomised metrics, such as http requests per second?
 Firstly, we the pod that we want to moniter calculate these metrics by itself. Then this pod will need to open a http server for Prometheus to collect these metrics.
 More details please see: https://godoc.org/github.com/prometheus/client_golang/prometheus
 
-An example that exposes CPU tempareture can be found at: https://github.com/haitaomei/Go/tree/master/prometheusMetric  After deploying this example, wait for a while,
+An example that exposes CPU tempareture can be found at: https://github.com/haitaomei/Go-Demo/blob/master/Prometheus_Metric_Publish_Pod/main.go  After deploying this example, wait for a while,
 
 ``kubectl get --raw "/apis/custom.metrics.k8s.io/v1beta1/namespaces/default/pods/*/cpu_temperature_celsius" | jq .``
 
