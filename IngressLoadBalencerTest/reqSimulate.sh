@@ -1,1 +1,0 @@
-while true; do curl -w "%{time_starttransfer}\n" haitao.lon06.containers.appdomain.cloud; done
