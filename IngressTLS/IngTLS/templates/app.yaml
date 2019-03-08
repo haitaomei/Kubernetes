@@ -1,0 +1,32 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: nginxapp-deployment
+  namespace: {{ .Values.namespacevalue }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: nginxapp
+    spec:
+      containers:
+        - name: nginxapp-container
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginxapp-svc
+  namespace: {{ .Values.namespacevalue }}
+spec:
+  type: ClusterIP # NodePort
+  ports:
+   - port: 80
+  selector:
+    app: nginxapp

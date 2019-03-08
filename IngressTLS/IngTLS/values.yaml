@@ -1,0 +1,8 @@
+replicaCount: 1
+
+namespacevalue: default
+
+image:
+  repository: nginx
+  tag: stable
+  pullPolicy: IfNotPresent

@@ -1,0 +1,106 @@
+#################################################################################################
+# gRPC server service
+#################################################################################################
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: grpc-server
+  namespace: "default"
+spec:
+  selector:
+    matchLabels:
+      app: grpc-server
+  template:
+    metadata:
+      labels:
+        app: grpc-server
+        version: v1
+    spec:      
+      containers:
+        - name: grpc-server
+          imagePullPolicy: Always
+          image: khitaomei/grpc:server            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpcserver
+  namespace: "default"
+spec:
+  type: ClusterIP
+  ports:
+    - name: grpc-server-port
+      port: 50051
+  selector:
+    app: grpc-server
+---
+#################################################################################################
+# gRPC client service
+#################################################################################################
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: grpc-client
+  namespace: "default"
+spec:
+  selector:
+    matchLabels:
+      app: grpc-client
+  template:
+    metadata:
+      labels:
+        app: grpc-client
+        version: v1
+    spec:      
+      containers:
+        - name: grpc-client
+          imagePullPolicy: Always
+          image: khitaomei/grpc:client            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-client-svc
+  namespace: "default"
+spec:
+  type: ClusterIP
+  ports:
+    - name: http  #use name http
+      port: 60443
+  selector:
+    app: grpc-client
+---
+#################################################################################################
+# gateway and virtual service
+#################################################################################################
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: grpc-test-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: http-server-connecting-to-grpc
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - grpc-test-gateway
+  http:
+  - route:
+    - destination:
+        host: grpc-client-svc
+        port:
+          number: 60443

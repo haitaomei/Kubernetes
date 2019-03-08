@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginxapp-ingress
+  namespace: {{ .Values.namespacevalue }}
+  annotations:
+spec:
+  tls:
+    - hosts:
+      - www.haitao.mei
+      secretName: ingress-secret
+  rules:
+    - host: www.haitao.mei
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: nginxapp-svc
+              servicePort: 80

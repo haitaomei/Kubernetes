@@ -1,0 +1,12 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: apache-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1beta1
+    kind: Deployment
+    name: hpa-exp-dep
+  targetCPUUtilizationPercentage: 70
+  minReplicas: 1
+  maxReplicas: 9

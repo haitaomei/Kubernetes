@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+ labels:
+   name: ssh-daemonset
+ name: ssh-daemonset
+spec:
+ template:
+   metadata:
+     labels:
+       name: ssh-daemonset
+   spec:
+     hostNetwork: true
+     hostPID: true
+     hostIPC: true
+     containers:
+     - image: kitch/sshdaemonset:4
+       securityContext:
+         privileged: true
+       name: ssh-daemonset
+       volumeMounts:
+       - mountPath: /host
+         name: test-volume
+     volumes:
+     - name: test-volume
+       hostPath:
+         # directory location on host
+         path: /

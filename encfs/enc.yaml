@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enc-deployment
+  labels:
+    app: enc
+spec:
+  selector:
+    matchLabels:
+      app-name: enc
+  template:
+    metadata:
+      labels:
+        app-name: enc
+    spec:
+      containers:
+      - name: enc-container
+        image: haitaomei/encfs:latest
+        ports:
+        - containerPort: 80
+        securityContext: # must use privilege
+          privileged: true
+          capabilities:
+            add:
+              - SYS_ADMIN

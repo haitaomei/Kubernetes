@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: apachevc
+spec:
+  type: NodePort
+  selector:
+    app-name: hpa-example
+  ports:
+    - port: 80
+      nodePort: 30080

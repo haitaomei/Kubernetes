@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: exp-ingress
+  annotations:
+    ingress.bluemix.net/rewrite-path: "serviceName=apachesvc rewrite=/;serviceName=nginxsvc rewrite=/"
+spec:
+  rules:
+  - host: haitaodev.uk-south.containers.mybluemix.net
+    http:
+      paths:
+      - path: /apache
+        backend:
+          serviceName: apachesvc
+          servicePort: 80
+      - path: /nginx
+        backend:
+          serviceName: nginxsvc
+          servicePort: 80

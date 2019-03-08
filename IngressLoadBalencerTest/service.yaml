@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: uploadserversvc
+spec:
+  type: ClusterIP  
+  selector:
+    app-name: uploadserver
+  ports:
+    - name: uploadserver-port
+      port: 80

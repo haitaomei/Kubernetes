@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: apachesvc
+spec:
+  type: ClusterIP  
+  selector:
+    app-name: apache
+  ports:
+    - name: apache-port
+      port: 80
